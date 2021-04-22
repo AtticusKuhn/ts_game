@@ -94,7 +94,31 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_1__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;\n!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports) {\n    \"use strict\";\n    Object.defineProperty(exports, \"__esModule\", { value: true });\n}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),\n\t\t\t\t__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));\n!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports], __WEBPACK_LOCAL_MODULE_1__ = ((function (require, exports) {\n    \"use strict\";\n    Object.defineProperty(exports, \"__esModule\", { value: true });\n    var identity_map = function (pt) { return pt; };\n    exports.levels = [\n        {\n            map: identity_map,\n        },\n    ];\n    var drawCanvas = function (map, canvas) {\n        var ctx = canvas.getContext(\"2d\");\n        if (!ctx)\n            throw \"this error shouldn't happen\";\n        for (var x = 0; x < 100; x++) {\n            for (var y = 0; y < 100; y++) {\n                ctx.fillRect(x, y, 1, 1);\n            }\n        }\n        return canvas;\n    };\n    exports.set_up_level = function (lvl) {\n        var container = document.getElementById(\"container\");\n        if (!container)\n            throw \"cannot find container\";\n        container.innerHTML = \"\";\n        var canvas = drawCanvas(lvl.map, document.createElement(\"CANVAS\"));\n    };\n}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)));\n!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __WEBPACK_LOCAL_MODULE_1__], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, levels_1) {\n    \"use strict\";\n    Object.defineProperty(exports, \"__esModule\", { value: true });\n    var main = function () {\n        var lvl1 = levels_1.levels[0];\n        levels_1.set_up_level(lvl1);\n    };\n}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),\n\t\t\t\t__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));\n\n\n//# sourceURL=webpack:///./src/index.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\n//@ts-ignore\nconst levels_ts_1 = __webpack_require__(/*! ./levels.ts */ \"./src/levels.ts\");\nconst main = () => {\n    const lvl1 = levels_ts_1.levels[0];\n    console.log({ lvl1 });\n    levels_ts_1.set_up_level(lvl1);\n};\nmain();\n//stuff\n\n\n//# sourceURL=webpack:///./src/index.ts?");
+
+/***/ }),
+
+/***/ "./src/levels.ts":
+/*!***********************!*\
+  !*** ./src/levels.ts ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\n//@ts-ignore\nconst math_ts_1 = __webpack_require__(/*! ./math.ts */ \"./src/math.ts\");\nconst identity_map = (pt) => pt;\nconst square_mapping = ({ x, y }) => {\n    return { x: x ** 2 - y ** 2, y: 2 * x * y };\n};\nexports.levels = [\n    {\n        map: square_mapping,\n    },\n];\nconst drawCanvas = (map, canvas) => {\n    let ctx = canvas.getContext(\"2d\");\n    if (!ctx)\n        throw \"this error shouldn't happen\";\n    for (let x = 0; x < 1000; x += 10) {\n        for (let y = 0; y < 1000; y += 10) {\n            const [x2, y2] = math_ts_1.toArray(map({ x, y }));\n            console.log({ x2, y2 });\n            ctx.fillRect(x2, y2, 1, 1);\n            console.log(\"drawing\");\n        }\n    }\n    return canvas;\n};\nexports.set_up_level = (lvl) => {\n    const container = document.getElementById(\"container\");\n    if (!container)\n        throw \"cannot find container\";\n    container.innerHTML = \"\";\n    let canvas = drawCanvas(lvl.map, document.createElement(\"CANVAS\"));\n    let ctx = canvas.getContext(\"2d\");\n    // canvas.width = 200;\n    // canvas.height = 200;\n    const simHeight = window.innerHeight * 2;\n    const simWidth = window.innerWidth * 2;\n    // SimCanvas.clearRect(0, 0, SimWidth, SimHeight);\n    // ControlCanvas.clearRect(0, 0, SimWidth, SimHeight);\n    // ctx.canvas.height = simHeight;\n    // ctx.canvas.width = simWidth;\n    container.appendChild(canvas);\n};\n\n\n//# sourceURL=webpack:///./src/levels.ts?");
+
+/***/ }),
+
+/***/ "./src/math.ts":
+/*!*********************!*\
+  !*** ./src/math.ts ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.toArray = (pt) => [pt.x, pt.y];\n\n\n//# sourceURL=webpack:///./src/math.ts?");
 
 /***/ })
 

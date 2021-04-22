@@ -2,7 +2,7 @@ export interface level {
   map: mapping;
 }
 export interface point {
-  x: Number;
-  y: Number;
+  x: number;
+  y: number;
 }
 export type mapping = (pt: point) => point;

@@ -793,11 +793,6 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-elix@11.0.1:
-  version "11.0.1"
-  resolved "https://registry.yarnpkg.com/elix/-/elix-11.0.1.tgz#21256da2465af5eee55004902a9bba52c18cdfba"
-  integrity sha512-C7Hx4cHYzFyTCT9oTN2s4a1eVVayfC6xEPBrkWQFaYSFAG0bvJPISNagy1EoQvGdDOFIjas6ga/G8UcBUEKmCw==
-
 elliptic@^6.5.3:
   version "6.5.4"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.4.tgz#da37cebd31e79a1367e941b592ed1fbebd58abbb"

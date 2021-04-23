@@ -45,12 +45,15 @@ const sqrt_mapping: mapping = (pt) => {
 const rotational_mapping: mapping = ({ x, y }) =>
   scale_point(from_array([y, -x]), 20);
 const d_mapping: mapping = (z) =>
-  multiply(
-    from_array([0, 1]),
-    divide(
-      add_points(from_array([0, 1]), multiply(z, from_array([-1, 0]))),
-      add_points(from_array([0, 1]), z)
-    )
+  scale_point(
+    multiply(
+      from_array([0, 1]),
+      divide(
+        add_points(from_array([0, 1]), multiply(z, from_array([-1, 0]))),
+        add_points(from_array([0, 1]), z)
+      )
+    ),
+    200
   );
 export const levels: level[] = [
   {

@@ -19,7 +19,7 @@ export const multiply = (pt1: point, pt2: point): point =>
 
 export const conjugate = (pt: point) => from_array([pt.x, -pt.y]);
 export const divide = (pt1: point, pt2: point): point =>
-  scale_point(multiply(pt1, conjugate(pt2)), 1 / (pt2.x ** 2 - pt2.y ** 2));
+  scale_point(multiply(pt1, conjugate(pt2)), 1 / (pt2.x ** 2 + pt2.y ** 2));
 
 export const rectangular_to_polar = (pt: point): polar => {
   return {

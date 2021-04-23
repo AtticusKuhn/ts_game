@@ -7,6 +7,8 @@ export const game_loop = (): void => {
     let canvas = get_canvas();
     // console.log("game_lopp");
     // console.log("in game loop", state.movement);
+    if (state.movement.right === "still" && state.movement.up === "still")
+      return;
     if (state.movement.right === "forward") move_player(from_array([1, 0]));
     if (state.movement.right === "backward") move_player(from_array([-1, 0]));
     if (state.movement.up === "forward") move_player(from_array([0, -1]));
@@ -17,7 +19,7 @@ export const game_loop = (): void => {
       get_origin(canvas),
       state.player_position
     );
-  }, 50);
+  }, 110);
 };
 export const add_controls = (canvas: HTMLCanvasElement): HTMLCanvasElement => {
   console.log("add_controls");

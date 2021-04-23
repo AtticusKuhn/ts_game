@@ -5,7 +5,7 @@ import { to_array, from_array, add_points } from "./math.ts";
 import { level, mapping, point } from "./types";
 import { cartesian_product_map, range, set_map, step_range } from "./utils";
 import { add_controls, game_loop } from "./game_logic";
-import { scale_point } from "./math";
+import { divide, scale_point } from "./math";
 const identity_map: mapping = (pt) => from_array([pt.x * 4, pt.y * 4]);
 const square_mapping: mapping = ({ x, y }) => {
   return { x: (x ** 2 - y ** 2) / 20, y: (2 * x * y) / 20 };
@@ -15,6 +15,14 @@ const inverse_mapping: mapping = ({ x, y }) => {
   return scale_point(from_array([x / d, -y / d]), 10000);
 };
 const test_mapping: mapping = ({ x, y }) => from_array([x + y, y]);
+const cubic_mapping: mapping = (pt) =>
+  scale_point(
+    divide(
+      add_points(pt, from_array([1, 0])),
+      add_points(pt, from_array([-1, 0]))
+    ),
+    100
+  );
 export const levels: level[] = [
   {
     name: "square mapping",
@@ -31,6 +39,11 @@ export const levels: level[] = [
     equation: "z→1/z",
     map: inverse_mapping,
   },
+  // {
+  //   name: "cubic mapping",
+  //   equation: "z→(z-1)/(z+1))",
+  //   map: cubic_mapping,
+  // },
 ];
 
 const make_preimage = (bound: number, step: number): Set<point> => {

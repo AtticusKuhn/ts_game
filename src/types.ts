@@ -2,6 +2,7 @@ export interface level {
   map: mapping;
   name: string;
   equation: string;
+  starting_position?: point;
 }
 export interface point {
   x: number;

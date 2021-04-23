@@ -38,6 +38,7 @@ export const levels: level[] = [
     name: "inverse mapping",
     equation: "z→1/z",
     map: inverse_mapping,
+    starting_position: { x: 0, y: -49 },
   },
   // {
   //   name: "cubic mapping",
@@ -99,8 +100,9 @@ export const set_up_level = (lvl: level): void => {
   ctx.canvas.height = simHeight;
   ctx.canvas.width = simWidth;
   const origin = from_array([simWidth / 2, simHeight / 2]);
-  let drawnCanvas = drawCanvas(lvl.map, canvas, origin, from_array([0, 0]));
-  set_player_position(from_array([0, 0]));
+  const player_pos = lvl.starting_position || from_array([0, 0]);
+  let drawnCanvas = drawCanvas(lvl.map, canvas, origin, player_pos);
+  set_player_position(player_pos);
   // canvas.width = 200;
   // canvas.height = 200;
 

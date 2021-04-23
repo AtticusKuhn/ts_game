@@ -21,7 +21,7 @@ export const game_loop = (): void => {
     );
   }, 110);
 };
-export const add_controls = (canvas: HTMLCanvasElement): HTMLCanvasElement => {
+export const add_controls = (): void => {
   console.log("add_controls");
   window.onkeydown = (e: KeyboardEvent) => {
     const state = get_state();
@@ -50,5 +50,4 @@ export const add_controls = (canvas: HTMLCanvasElement): HTMLCanvasElement => {
       merge_state({ movement: { right: "still", up: "still" } });
     // keys[e.key] = false;
   };
-  return canvas;
 };

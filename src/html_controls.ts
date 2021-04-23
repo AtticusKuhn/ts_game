@@ -5,6 +5,12 @@ export function add_html_listeners(): void {
   const selector = document.querySelector(
     "#mapping_selector"
   ) as HTMLSelectElement;
+  for (const l of levels) {
+    const option = document.createElement("option") as HTMLOptionElement;
+    option.value = l.name;
+    option.innerText = l.name;
+    selector.appendChild(option);
+  }
   display_info(selector.value);
   selector.addEventListener("change", (e) => {
     display_info(selector.value);

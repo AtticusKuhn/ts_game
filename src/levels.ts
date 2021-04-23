@@ -3,6 +3,7 @@ import { set_player_position } from ".";
 import { add_controls, game_loop } from "./game_logic";
 import {
   divide,
+  multiply,
   polar_to_rectangular,
   rectangular_to_polar,
   scale_point,
@@ -41,6 +42,16 @@ const sqrt_mapping: mapping = (pt) => {
     from_array([-500, 0])
   );
 };
+const rotational_mapping: mapping = ({ x, y }) =>
+  scale_point(from_array([y, -x]), 20);
+const d_mapping: mapping = (z) =>
+  multiply(
+    from_array([0, 1]),
+    divide(
+      add_points(from_array([0, 1]), multiply(z, from_array([-1, 0]))),
+      add_points(from_array([0, 1]), z)
+    )
+  );
 export const levels: level[] = [
   {
     name: "square mapping",
@@ -62,6 +73,16 @@ export const levels: level[] = [
     name: "sqrt mapping",
     equation: "z→sqrt(z)",
     map: sqrt_mapping,
+  },
+  {
+    name: "rotational mappng",
+    equation: "z→iz",
+    map: rotational_mapping,
+  },
+  {
+    name: "idk what this is called mappng",
+    equation: "z→i(i-z)/(i+z)",
+    map: d_mapping,
   },
 ];
 
@@ -88,7 +109,7 @@ export const drawCanvas = (
   const pre_image = make_preimage(200, 4);
   const shifted_map = (pt) => add_points(origin, map(pt));
   const image = set_map(pre_image, shifted_map);
-  console.log(image);
+  // console.log(image);
   // console.log([...image]);
   // const image_shifted = set_map(image, (pt) =>
   //   from_array([pt.x + origin.x, pt.y + origin.y])
@@ -111,7 +132,6 @@ export const set_up_level = (lvl: level): void => {
   if (!container) throw "cannot find container";
   container.innerHTML = "";
   let canvas = document.createElement("CANVAS") as HTMLCanvasElement;
-  canvas = add_controls(canvas);
   const simHeight = window.innerHeight;
   const simWidth = window.innerWidth;
   let ctx = canvas.getContext("2d");
@@ -128,7 +148,6 @@ export const set_up_level = (lvl: level): void => {
   // ControlCanvas.clearRect(0, 0, SimWidth, SimHeight);
 
   container.appendChild(drawnCanvas);
-  game_loop();
 };
 export const get_canvas = (): HTMLCanvasElement => {
   return document.querySelector("#container > canvas");

@@ -29,3 +29,7 @@ export const rectangular_to_polar = (pt: point): polar => {
 };
 export const polar_to_rectangular = (pol: polar): point =>
   from_array([pol.r * Math.cos(pol.theta), pol.r * Math.sin(pol.theta)]);
+
+export const show = (p: point) =>
+  p.y > 0 ? `${p.x}+${p.y}i` : `${p.x}${p.y}i`;
+export const showp = (p: point) => console.log(show(p));

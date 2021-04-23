@@ -1,12 +1,15 @@
 import { point } from "./types";
 
-export const toArray = (pt: point): [number, number] => [pt.x, pt.y];
+export const to_array = (pt: point): [number, number] => [pt.x, pt.y];
 
-export const fromArray = ([x, y]): point => {
+export const from_array = ([x, y]): point => {
   return {
     x,
     y,
   };
 };
-export const addPoints = (pt1: point, pt2: point): point =>
-  fromArray([pt1.x + pt2.x, pt1.y + pt2.y]);
+export const add_points = (pt1: point, pt2: point): point =>
+  from_array([pt1.x + pt2.x, pt1.y + pt2.y]);
+
+export const scale_point = (pt: point, scale: number): point =>
+  from_array([pt.x * scale, pt.y * scale]);

@@ -1,5 +1,7 @@
 export interface level {
   map: mapping;
+  name: string;
+  equation: string;
 }
 export interface point {
   x: number;

@@ -1,11 +1,16 @@
 //@ts-ignore
-import { get_state, move_player, set_player_position } from ".";
-//@ts-ignore
-import { to_array, from_array, add_points } from "./math.ts";
-import { level, mapping, point } from "./types";
-import { cartesian_product_map, range, set_map, step_range } from "./utils";
+import { set_player_position } from ".";
 import { add_controls, game_loop } from "./game_logic";
-import { divide, scale_point } from "./math";
+import {
+  divide,
+  polar_to_rectangular,
+  rectangular_to_polar,
+  scale_point,
+} from "./math";
+//@ts-ignore
+import { add_points, from_array } from "./math.ts";
+import { level, mapping, point } from "./types";
+import { cartesian_product_map, set_map, step_range } from "./utils";
 const identity_map: mapping = (pt) => from_array([pt.x * 4, pt.y * 4]);
 const square_mapping: mapping = ({ x, y }) => {
   return { x: (x ** 2 - y ** 2) / 20, y: (2 * x * y) / 20 };
@@ -23,6 +28,19 @@ const cubic_mapping: mapping = (pt) =>
     ),
     100
   );
+const sqrt_mapping: mapping = (pt) => {
+  let { r, theta } = rectangular_to_polar(pt);
+  return add_points(
+    scale_point(
+      polar_to_rectangular({
+        r: Math.sqrt(r),
+        theta: theta / 2,
+      }),
+      50
+    ),
+    from_array([-500, 0])
+  );
+};
 export const levels: level[] = [
   {
     name: "square mapping",
@@ -40,11 +58,11 @@ export const levels: level[] = [
     map: inverse_mapping,
     starting_position: { x: 0, y: -49 },
   },
-  // {
-  //   name: "cubic mapping",
-  //   equation: "z→(z-1)/(z+1))",
-  //   map: cubic_mapping,
-  // },
+  {
+    name: "sqrt mapping",
+    equation: "z→sqrt(z)",
+    map: sqrt_mapping,
+  },
 ];
 
 const make_preimage = (bound: number, step: number): Set<point> => {
@@ -67,7 +85,7 @@ export const drawCanvas = (
   let ctx = canvas.getContext("2d");
   if (!ctx) throw "this error shouldn't happen";
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-  const pre_image = make_preimage(100, 3);
+  const pre_image = make_preimage(200, 4);
   const shifted_map = (pt) => add_points(origin, map(pt));
   const image = set_map(pre_image, shifted_map);
   console.log(image);

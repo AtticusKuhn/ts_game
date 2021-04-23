@@ -9,10 +9,10 @@ export const game_loop = (): void => {
     // console.log("in game loop", state.movement);
     if (state.movement.right === "still" && state.movement.up === "still")
       return;
-    if (state.movement.right === "forward") move_player(from_array([1, 0]));
-    if (state.movement.right === "backward") move_player(from_array([-1, 0]));
-    if (state.movement.up === "forward") move_player(from_array([0, -1]));
-    if (state.movement.up === "backward") move_player(from_array([0, 1]));
+    if (state.movement.right === "forward") move_player(from_array([2, 0]));
+    if (state.movement.right === "backward") move_player(from_array([-2, 0]));
+    if (state.movement.up === "forward") move_player(from_array([0, -2]));
+    if (state.movement.up === "backward") move_player(from_array([0, 2]));
     drawCanvas(
       state.current_level.map,
       canvas,

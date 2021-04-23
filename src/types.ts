@@ -20,3 +20,7 @@ export interface state {
     right: direction;
   };
 }
+export interface polar {
+  r: number;
+  theta: number;
+}

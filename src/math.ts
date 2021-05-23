@@ -2,7 +2,7 @@ import { point, polar } from "./types";
 
 export const to_array = (pt: point): [number, number] => [pt.x, pt.y];
 
-export const from_array = ([x, y]): point => {
+export const from_array = ([x, y]: [number, number]): point => {
   return {
     x,
     y,

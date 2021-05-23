@@ -5,8 +5,6 @@ export const game_loop = (): void => {
   setInterval(() => {
     let state = get_state();
     let canvas = get_canvas();
-    // console.log("game_lopp");
-    // console.log("in game loop", state.movement);
     if (state.movement.right === "still" && state.movement.up === "still")
       return;
     if (state.movement.right === "forward") move_player(from_array([2, 0]));
@@ -16,7 +14,7 @@ export const game_loop = (): void => {
     drawCanvas(
       state.current_level.map,
       canvas,
-      get_origin(canvas),
+      get_origin(canvas.getContext("2d") as CanvasRenderingContext2D),
       state.player_position
     );
   }, 110);
@@ -24,7 +22,7 @@ export const game_loop = (): void => {
 export const add_controls = (): void => {
   console.log("add_controls");
   window.onkeydown = (e: KeyboardEvent) => {
-    const state = get_state();
+    // const state = get_state();
     // console.log(state);
     // console.log(e.key);
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.key) > -1)

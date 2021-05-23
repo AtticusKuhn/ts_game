@@ -12,7 +12,7 @@ let state: state = {
     right: "still",
   },
 };
-export const merge_state = (s) => set_state({ ...state, ...s });
+export const merge_state = (s: Partial<state>) => set_state({ ...state, ...s });
 export const set_state = (s: state) => {
   state = s;
   return state;

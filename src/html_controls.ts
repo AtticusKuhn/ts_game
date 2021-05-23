@@ -12,9 +12,10 @@ export function add_html_listeners(): void {
     selector.appendChild(option);
   }
   display_info(selector.value);
-  selector.addEventListener("change", (e) => {
+  selector.addEventListener("change", (_e) => {
     display_info(selector.value);
     const new_lvl = levels.find((l) => l.name === selector.value);
+    if (!new_lvl) return;
     merge_state({ current_level: new_lvl });
     set_up_level(new_lvl);
   });

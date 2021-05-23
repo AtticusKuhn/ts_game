@@ -1,6 +1,5 @@
 //@ts-ignore
 import { set_player_position } from ".";
-import { add_controls, game_loop } from "./game_logic";
 import {
   divide,
   multiply,
@@ -8,8 +7,7 @@ import {
   rectangular_to_polar,
   scale_point,
 } from "./math";
-//@ts-ignore
-import { add_points, from_array } from "./math.ts";
+import { add_points, from_array } from "./math";
 import { level, mapping, point } from "./types";
 import { cartesian_product_map, set_map, step_range } from "./utils";
 const identity_map: mapping = (pt) => from_array([pt.x * 4, pt.y * 4]);
@@ -20,15 +18,15 @@ const inverse_mapping: mapping = ({ x, y }) => {
   let d = x ** 2 + y ** 2;
   return scale_point(from_array([x / d, -y / d]), 10000);
 };
-const test_mapping: mapping = ({ x, y }) => from_array([x + y, y]);
-const cubic_mapping: mapping = (pt) =>
-  scale_point(
-    divide(
-      add_points(pt, from_array([1, 0])),
-      add_points(pt, from_array([-1, 0]))
-    ),
-    100
-  );
+// const test_mapping: mapping = ({ x, y }) => from_array([x + y, y]);
+// const cubic_mapping: mapping = (pt) =>
+//   scale_point(
+//     divide(
+//       add_points(pt, from_array([1, 0])),
+//       add_points(pt, from_array([-1, 0]))
+//     ),
+//     100
+//   );
 const sqrt_mapping: mapping = (pt) => {
   let { r, theta } = rectangular_to_polar(pt);
   return add_points(
@@ -46,12 +44,9 @@ const rotational_mapping: mapping = ({ x, y }) =>
   scale_point(from_array([y, -x]), 20);
 const d_mapping: mapping = (z) =>
   scale_point(
-    multiply(
-      from_array([0, 1]),
-      divide(
-        add_points(from_array([0, 1]), multiply(z, from_array([-1, 0]))),
-        add_points(from_array([0, 1]), z)
-      )
+    divide(
+      add_points(from_array([0, 1]), multiply(z, from_array([-1, 0]))),
+      add_points(from_array([0, 1]), z)
     ),
     200
   );
@@ -90,14 +85,11 @@ export const levels: level[] = [
 ];
 
 const make_preimage = (bound: number, step: number): Set<point> => {
-  const len = Math.floor(bound / step);
-  const x_range = step_range(-bound, bound, step);
-  const y_range = step_range(-bound, bound, step);
-  if (x_range.length === 0 || y_range.length === 0)
-    throw "the range is empty and thiss shouldn't happen";
+  const range = step_range(-bound, bound, step);
   return new Set(
-    //@ts-ignore
-    cartesian_product_map(x_range, y_range, (x, y) => from_array([x, y]))
+    cartesian_product_map(range as [number], range as [number], (x, y) =>
+      from_array([x, y])
+    )
   );
 };
 export const drawCanvas = (
@@ -106,24 +98,14 @@ export const drawCanvas = (
   origin: point,
   player_position: point
 ): HTMLCanvasElement => {
-  let ctx = canvas.getContext("2d");
-  if (!ctx) throw "this error shouldn't happen";
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return canvas;
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
   const pre_image = make_preimage(200, 4);
-  const shifted_map = (pt) => add_points(origin, map(pt));
+  const shifted_map = (pt: point): point => add_points(origin, map(pt));
   const image = set_map(pre_image, shifted_map);
-  // console.log(image);
-  // console.log([...image]);
-  // const image_shifted = set_map(image, (pt) =>
-  //   from_array([pt.x + origin.x, pt.y + origin.y])
-  // );
-  // console.log([...image]);
-  image.forEach((pt) => {
-    ctx.fillRect(pt.x, pt.y, 2, 2);
-  });
-  const mapped_player = add_points(map(player_position), origin);
-  // console.log("player position", player_position);
-  // console.log("mapped player", mapped_player);
+  image.forEach((pt) => ctx.fillRect(pt.x, pt.y, 2, 2));
+  const mapped_player: point = add_points(map(player_position), origin);
   ctx.fillStyle = "#FF0000";
   ctx.fillRect(mapped_player.x, mapped_player.y, 10, 10);
   ctx.fillStyle = "#000000";
@@ -137,25 +119,17 @@ export const set_up_level = (lvl: level): void => {
   let canvas = document.createElement("CANVAS") as HTMLCanvasElement;
   const simHeight = window.innerHeight;
   const simWidth = window.innerWidth;
-  let ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
   ctx.canvas.height = simHeight;
   ctx.canvas.width = simWidth;
   const origin = from_array([simWidth / 2, simHeight / 2]);
   const player_pos = lvl.starting_position || from_array([0, 0]);
   let drawnCanvas = drawCanvas(lvl.map, canvas, origin, player_pos);
   set_player_position(player_pos);
-  // canvas.width = 200;
-  // canvas.height = 200;
-
-  // SimCanvas.clearRect(0, 0, SimWidth, SimHeight);
-  // ControlCanvas.clearRect(0, 0, SimWidth, SimHeight);
-
   container.appendChild(drawnCanvas);
 };
-export const get_canvas = (): HTMLCanvasElement => {
-  return document.querySelector("#container > canvas");
-};
-export const get_origin = (canvas: HTMLCanvasElement): point => {
-  const ctx = canvas.getContext("2d");
-  return from_array([ctx.canvas.width / 2, ctx.canvas.height / 2]);
-};
+export const get_canvas = (): HTMLCanvasElement =>
+  document.querySelector("#container > canvas") as HTMLCanvasElement;
+export const get_origin = (ctx: CanvasRenderingContext2D): point =>
+  from_array([ctx.canvas.width / 2, ctx.canvas.height / 2]);

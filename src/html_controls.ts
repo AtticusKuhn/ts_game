@@ -1,16 +1,25 @@
 import { merge_state } from ".";
 import { levels, set_up_level } from "./levels";
+import { level } from "./types";
 
-export function add_html_listeners(): void {
-  const selector = document.querySelector(
-    "#mapping_selector"
-  ) as HTMLSelectElement;
-  for (const l of levels) {
+function appendLevels(
+  lvls: level[],
+  selector: HTMLSelectElement
+): HTMLSelectElement {
+  for (const l of lvls) {
     const option = document.createElement("option") as HTMLOptionElement;
     option.value = l.name;
     option.innerText = l.name;
     selector.appendChild(option);
   }
+  return selector;
+}
+
+export function add_html_listeners(): void {
+  const selector = appendLevels(
+    levels,
+    document.querySelector("#mapping_selector") as HTMLSelectElement
+  );
   display_info(selector.value);
   selector.addEventListener("change", (_e) => {
     display_info(selector.value);

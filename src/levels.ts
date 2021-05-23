@@ -1,4 +1,3 @@
-//@ts-ignore
 import { set_player_position } from ".";
 import {
   divide,
@@ -113,21 +112,28 @@ export const drawCanvas = (
 };
 
 export const set_up_level = (lvl: level): void => {
-  const container = document.getElementById("container");
-  if (!container) throw "cannot find container";
+  let container = document.getElementById("container");
+  container = set_up_canvas(lvl, container as HTMLDivElement);
+};
+
+export const set_up_canvas = (
+  lvl: level,
+  container: HTMLDivElement
+): HTMLDivElement => {
   container.innerHTML = "";
   let canvas = document.createElement("CANVAS") as HTMLCanvasElement;
   const simHeight = window.innerHeight;
   const simWidth = window.innerWidth;
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (!ctx) return container;
   ctx.canvas.height = simHeight;
   ctx.canvas.width = simWidth;
   const origin = from_array([simWidth / 2, simHeight / 2]);
   const player_pos = lvl.starting_position || from_array([0, 0]);
-  let drawnCanvas = drawCanvas(lvl.map, canvas, origin, player_pos);
+  const drawnCanvas = drawCanvas(lvl.map, canvas, origin, player_pos);
   set_player_position(player_pos);
   container.appendChild(drawnCanvas);
+  return container;
 };
 export const get_canvas = (): HTMLCanvasElement =>
   document.querySelector("#container > canvas") as HTMLCanvasElement;

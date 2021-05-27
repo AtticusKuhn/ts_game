@@ -9,8 +9,8 @@ const make_movement = (movement: movement): point => {
   const { up, right } = movement;
   if (up === "backward") x -= 1;
   if (up === "forward") x += 1;
-  if (right === "backward") x -= 1;
-  if (up === "forward") x += 1;
+  if (right === "backward") y -= 1;
+  if (up === "forward") y += 1;
   return { x, y };
 };
 const key_to_direction = (key: string): movement => {

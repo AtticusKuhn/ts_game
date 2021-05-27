@@ -10,15 +10,16 @@ export interface point {
 }
 export type mapping = (pt: point) => point;
 
-type direction = "forward" | "backward" | "still";
+export type direction = "forward" | "backward" | "still";
+export interface movement {
+  up: direction;
+  right: direction;
+}
 
 export interface state {
   player_position: point;
   current_level: level;
-  movement: {
-    up: direction;
-    right: direction;
-  };
+  movement: movement;
 }
 export interface polar {
   r: number;

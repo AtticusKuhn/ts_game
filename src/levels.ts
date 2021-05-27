@@ -1,12 +1,12 @@
 import { set_player_position } from ".";
 import {
+  add_points,
   divide,
+  exponentiaite_point,
+  from_array,
   multiply,
-  polar_to_rectangular,
-  rectangular_to_polar,
   scale_point,
 } from "./math";
-import { add_points, from_array } from "./math";
 import { level, mapping, point } from "./types";
 import { cartesian_product_map, set_map, step_range } from "./utils";
 const identity_map: mapping = (pt) => from_array([pt.x * 4, pt.y * 4]);
@@ -17,28 +17,12 @@ const inverse_mapping: mapping = ({ x, y }) => {
   let d = x ** 2 + y ** 2;
   return scale_point(from_array([x / d, -y / d]), 10000);
 };
-// const test_mapping: mapping = ({ x, y }) => from_array([x + y, y]);
-// const cubic_mapping: mapping = (pt) =>
-//   scale_point(
-//     divide(
-//       add_points(pt, from_array([1, 0])),
-//       add_points(pt, from_array([-1, 0]))
-//     ),
-//     100
-//   );
-const sqrt_mapping: mapping = (pt) => {
-  let { r, theta } = rectangular_to_polar(pt);
-  return add_points(
-    scale_point(
-      polar_to_rectangular({
-        r: Math.sqrt(r),
-        theta: theta / 2,
-      }),
-      50
-    ),
+const sqrt_mapping: mapping = (pt) =>
+  add_points(
+    scale_point(exponentiaite_point(pt, 0.5), 50),
     from_array([-500, 0])
   );
-};
+
 const rotational_mapping: mapping = ({ x, y }) =>
   scale_point(from_array([y, -x]), 20);
 const d_mapping: mapping = (z) =>

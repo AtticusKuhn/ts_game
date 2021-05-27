@@ -27,6 +27,13 @@ export const rectangular_to_polar = (pt: point): polar => {
     theta: Math.atan(pt.y / pt.x),
   };
 };
+export const exponentiaite_point = (pt: point, power: number): point => {
+  const { r, theta } = rectangular_to_polar(pt);
+  return polar_to_rectangular({
+    r: r ** power,
+    theta: theta * power,
+  });
+};
 export const polar_to_rectangular = (pol: polar): point =>
   from_array([pol.r * Math.cos(pol.theta), pol.r * Math.sin(pol.theta)]);
 

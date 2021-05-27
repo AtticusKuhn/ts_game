@@ -1,6 +1,6 @@
 import config from "./config";
 import { get_state, merge_state, move_player } from "./index";
-import { drawCanvas, get_canvas, get_origin } from "./levels";
+import { draw_level_on_canvas, get_canvas, get_origin } from "./levels";
 import { scale_point } from "./math";
 import { movement, point } from "./types";
 const make_movement = (movement: movement): point => {
@@ -35,7 +35,7 @@ export const game_loop = (): void => {
     move_player(
       scale_point(make_movement(state.movement), config.player.speed)
     );
-    drawCanvas(
+    draw_level_on_canvas(
       state.current_level.map,
       canvas,
       get_origin(canvas.getContext("2d") as CanvasRenderingContext2D),

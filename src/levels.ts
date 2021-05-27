@@ -1,4 +1,5 @@
 import { set_player_position } from ".";
+import config from "./config";
 import {
   add_points,
   divide,
@@ -75,7 +76,7 @@ const make_preimage = (bound: number, step: number): Set<point> => {
     )
   );
 };
-export const drawCanvas = (
+export const draw_level_on_canvas = (
   map: mapping,
   canvas: HTMLCanvasElement,
   origin: point,
@@ -84,14 +85,24 @@ export const drawCanvas = (
   const ctx = canvas.getContext("2d");
   if (!ctx) return canvas;
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-  const pre_image = make_preimage(200, 4);
+  const pre_image = make_preimage(
+    config.game.dots_per_level,
+    config.game.dot_spacing
+  );
   const shifted_map = (pt: point): point => add_points(origin, map(pt));
   const image = set_map(pre_image, shifted_map);
-  image.forEach((pt) => ctx.fillRect(pt.x, pt.y, 2, 2));
+  image.forEach((pt) =>
+    ctx.fillRect(pt.x, pt.y, config.dot.height, config.dot.width)
+  );
   const mapped_player: point = add_points(map(player_position), origin);
-  ctx.fillStyle = "#FF0000";
-  ctx.fillRect(mapped_player.x, mapped_player.y, 10, 10);
-  ctx.fillStyle = "#000000";
+  ctx.fillStyle = config.colors.red;
+  ctx.fillRect(
+    mapped_player.x,
+    mapped_player.y,
+    config.player.height,
+    config.player.width
+  );
+  ctx.fillStyle = config.colors.black;
   return canvas;
 };
 
@@ -112,9 +123,9 @@ export const set_up_canvas = (
   if (!ctx) return container;
   ctx.canvas.height = simHeight;
   ctx.canvas.width = simWidth;
-  const origin = from_array([simWidth / 2, simHeight / 2]);
+  const origin = get_origin(ctx);
   const player_pos = lvl.starting_position || from_array([0, 0]);
-  const drawnCanvas = drawCanvas(lvl.map, canvas, origin, player_pos);
+  const drawnCanvas = draw_level_on_canvas(lvl.map, canvas, origin, player_pos);
   set_player_position(player_pos);
   container.appendChild(drawnCanvas);
   return container;

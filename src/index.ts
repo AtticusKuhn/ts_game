@@ -1,6 +1,6 @@
 import { add_controls, game_loop } from "./game_logic";
 import { add_html_listeners } from "./html_controls";
-import { set_up_level } from "./levels";
+import { set_up_level } from "./levels/draw_canvas";
 import { get_state } from "./state";
 
 const main = (): void => {

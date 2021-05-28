@@ -1,5 +1,6 @@
 import { merge_state } from "./state";
-import { levels, set_up_level } from "./levels";
+import { levels } from "./levels/levels";
+import { set_up_level } from "./levels/draw_canvas";
 import { level } from "./types";
 
 function appendLevels(

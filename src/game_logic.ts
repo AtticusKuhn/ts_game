@@ -1,7 +1,11 @@
 import config from "./config";
-import { get_state, merge_state, move_player } from "./state";
-import { draw_level_on_canvas, get_canvas, get_origin } from "./levels";
+import {
+  draw_level_on_canvas,
+  get_canvas,
+  get_origin,
+} from "./levels/draw_canvas";
 import { scale_point } from "./math";
+import { get_state, merge_state, move_player } from "./state";
 import { movement, point } from "./types";
 const make_movement = (movement: movement): point => {
   let x = 0;

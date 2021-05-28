@@ -1,6 +1,6 @@
 import { add_points } from "./math";
 import { point, state } from "./types";
-import { levels } from "./levels";
+import { levels } from "./levels/levels";
 let state: state = {
   player_position: { x: 0, y: 0 },
   current_level: levels[0],

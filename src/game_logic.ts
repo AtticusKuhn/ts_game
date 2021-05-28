@@ -1,5 +1,5 @@
 import config from "./config";
-import { get_state, merge_state, move_player } from "./index";
+import { get_state, merge_state, move_player } from "./state";
 import { draw_level_on_canvas, get_canvas, get_origin } from "./levels";
 import { scale_point } from "./math";
 import { movement, point } from "./types";

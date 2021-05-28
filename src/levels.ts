@@ -1,4 +1,4 @@
-import { set_player_position } from ".";
+import { set_player_position } from "./state";
 import config from "./config";
 import {
   add_points,

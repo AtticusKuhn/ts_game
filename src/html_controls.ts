@@ -1,4 +1,4 @@
-import { merge_state } from ".";
+import { merge_state } from "./state";
 import { levels, set_up_level } from "./levels";
 import { level } from "./types";
 

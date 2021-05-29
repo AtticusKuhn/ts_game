@@ -4,11 +4,9 @@ import { set_player_position } from "../state";
 import { level, mapping, point } from "../types";
 import { cartesian_product_map, set_map, step_range } from "../utils";
 const make_preimage = (bound: number, step: number): Set<point> => {
-  const range = step_range(-bound, bound, step);
+  const range = step_range(-bound, bound, step) as [number];
   return new Set(
-    cartesian_product_map(range as [number], range as [number], (x, y) =>
-      from_array([x, y])
-    )
+    cartesian_product_map(range, range, (x, y) => from_array([x, y]))
   );
 };
 export const draw_level_on_canvas = (
@@ -42,8 +40,8 @@ export const draw_level_on_canvas = (
 };
 
 export const set_up_level = (lvl: level): void => {
-  let container = document.getElementById("container");
-  container = set_up_canvas(lvl, container as HTMLDivElement);
+  let container = document.getElementById("container") as HTMLDivElement;
+  container = set_up_canvas(lvl, container);
 };
 
 export const set_up_canvas = (
@@ -51,13 +49,11 @@ export const set_up_canvas = (
   container: HTMLDivElement
 ): HTMLDivElement => {
   container.innerHTML = "";
-  let canvas = document.createElement("CANVAS") as HTMLCanvasElement;
-  const simHeight = window.innerHeight;
-  const simWidth = window.innerWidth;
+  const canvas = document.createElement("CANVAS") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d");
   if (!ctx) return container;
-  ctx.canvas.height = simHeight;
-  ctx.canvas.width = simWidth;
+  ctx.canvas.height = window.innerHeight;
+  ctx.canvas.width = window.innerWidth;
   const origin = get_origin(ctx);
   const player_pos = lvl.starting_position || from_array([0, 0]);
   const drawnCanvas = draw_level_on_canvas(lvl.map, canvas, origin, player_pos);

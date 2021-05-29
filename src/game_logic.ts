@@ -11,10 +11,10 @@ const make_movement = (movement: movement): point => {
   let x = 0;
   let y = 0;
   const { up, right } = movement;
-  if (up === "backward") x -= 1;
-  if (up === "forward") x += 1;
-  if (right === "backward") y -= 1;
-  if (up === "forward") y += 1;
+  if (up === "backward") y += 1;
+  if (up === "forward") y -= 1;
+  if (right === "backward") x -= 1;
+  if (right === "forward") x += 1;
   return { x, y };
 };
 const key_to_direction = (key: string): movement => {
@@ -36,9 +36,9 @@ export const game_loop = (): void => {
   setInterval(() => {
     let state = get_state();
     let canvas = get_canvas();
-    move_player(
-      scale_point(make_movement(state.movement), config.player.speed)
-    );
+    const { movement } = state;
+    if (movement.right === "still" && movement.up === "still") return;
+    move_player(scale_point(make_movement(movement), config.player.speed));
     draw_level_on_canvas(
       state.current_level.map,
       canvas,
